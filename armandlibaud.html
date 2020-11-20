@@ -1,11 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vue.js Instant Search</title>
+
+    
+    <style>
+    /* Hide un-compiled mustache bindings
+    until the Vue instance is ready */
+
+    [v-cloak] {
+      display: none;
+    }
+
+    *{
+        margin:0;
+        padding:0;
+    }
+
+	    body{
+	        font:15px/1.3 'Open Sans', sans-serif;
+	        color: #5e5b64;
+	        text-align:center;
+	    }
+
+    a, a:visited {
+        outline:none;
+        color:#389dc1;
+    }
+
+    a:hover{
+        text-decoration:none;
+    }
+
+    section, footer, header, aside, nav{
+        display: block;
+    }
+
+
+    /*-------------------------
+        The search input
+    --------------------------*/
+
+    .bar{
+        background-color:#5c9bb7;
+
+        background-image:-webkit-linear-gradient(top, #5c9bb7, #5392ad);
+        background-image:-moz-linear-gradient(top, #5c9bb7, #5392ad);
+        background-image:linear-gradient(top, #5c9bb7, #5392ad);
+
+        box-shadow: 0 1px 1px #ccc;
+        border-radius: 2px;
+        width: 600px;
+        padding: 14px;
+        margin: 45px auto 20px;
+        position:relative;
+    }
+
+    .bar input{
+        background:#fff no-repeat 13px 13px;
+        background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkU5NEY0RTlFMTA4NzExRTM5RTEzQkFBQzMyRjkyQzVBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkU5NEY0RTlGMTA4NzExRTM5RTEzQkFBQzMyRjkyQzVBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RTk0RjRFOUMxMDg3MTFFMzlFMTNCQUFDMzJGOTJDNUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RTk0RjRFOUQxMDg3MTFFMzlFMTNCQUFDMzJGOTJDNUEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4DjA/RAAABK0lEQVR42pTSQUdEURjG8dOY0TqmPkGmRcqYD9CmzZAWJRHVRIa0iFYtM6uofYaiEW2SRJtEi9YxIklp07ZkWswu0v/wnByve7vm5ee8M+85zz1jbt9Os+WiGkYdYxjCOx5wgFeXUHmtBSzpcCGa+5BJTCjEP+0nKWAT8xqe4ArPGEEVC1hHEbs2oBwdXkM7mj/JLZrad437sCGHOfUtcziutuYu2v8XUFF/4f6vMK/YgAH1HxkBYV60AR31gxkBYd6xAeF3VzMCwvzOBpypX8V4yuFRzX2d2gD/l5yjH4fYQEnzkj4fae5rJulF2sMXVrAsaTWttRFu4Osb+1jEDT71/ZveyhouTch2fINQL9hKefKjuYFfuznXWzXMTabyrvfyIV3M4vhXgAEAUMs7K0J9UJAAAAAASUVORK5CYII=);
+
+        border: none;
+        width: 100%;
+        line-height: 19px;
+        padding: 11px 0;
+
+        border-radius: 2px;
+        box-shadow: 0 2px 8px #c4c4c4 inset;
+        text-align: left;
+        font-size: 14px;
+        font-family: inherit;
+        color: #738289;
+        font-weight: bold;
+        outline: none;
+        text-indent: 40px;
+    }
+    /* centrer les elements de la liste */
+    ul{
+        list-style: none;
+        width: 428px;
+        margin: 0 auto;
+        text-align: left;
+    }
+
+    ul li{
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+        /* Permet de mettre element les un sous les autres */
+        overflow: hidden;
+    }
+
+/* taille d'image */
+    ul li img{
+        width:60px;
+        height:60px;
+        float:left;
+        border:none;
+    }
+/* placement des titres */ 
+    ul li p{
+        margin-left: 75px;
+        font-weight: bold;
+        padding-top: 12px;
+        color:#6e7a7f;
+    }
+    </style>
+
 </head>
 <body>
-	
+
+<form id="main" v-cloak>
+
+    <div class="bar">
+        <!-- Create a binding between the searchString model and the text field -->
+
+        <input type="text" v-model="searchString" placeholder="Enter your search terms" />
+    </div>
+
+    <ul>
+        <!-- Render a li element for every entry in the computed filteredproducts array. -->
+             
+        <li v-for="product in filteredproducts">
+            <a v-bind:href="product.url"><img v-bind:src="product.image" /></a>
+            <p>{{product.title}}</p><p>{{product.price}}</p>
+            <button>Ajouter au panier</button>
+        </li>
+    </ul>
+
+</form>
+<br>
+<h2>Panier</h2>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+<script>
+    // Define a custom filter called "currency". 
+Vue.filter('currency', function (value) {
+    return '$' + value.toFixed(2);
+});
+
+var demo = new Vue({
+    el: '#main',
+    data: {
+        searchString: "",
+
+        // The data model. These items would normally be requested via AJAX,
+        // but are hardcoded here for simplicity.
+
+        products: [
+            {
+                "title": "Nintendo Switch",
+                price: 299.99,
+                "url": "https://www.fnac.com/Console-Nintendo-Switch-avec-paire-de-Joy-Con-Rouge-et-Bleu-Neon/a13721295/w-4#omnsearchpos=1",
+                "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/b9/de/bc/12377785/1540-1/tsp20201023130551/Console-Nintendo-Switch-avec-paire-de-Joy-Con-Rouge-et-Bleu-Neon.jpg"
+            },
+            {
+                "title": "Playstation 4 pro 1to Noire ",
+                price: 399.99,
+                "url": "https://www.fnac.com/Console-Sony-PS4-Pro-1-To-Noire/a13011539/w-4#omnsearchpos=3",
+                "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/a5/5b/96/9853861/1540-1/tsp20191030100459/Console-Sony-PS4-Pro-1-To-Noire.jpg"
+            },
+            {
+                "title": "iPad Air 10,9'' 64 Go Vert Wi-Fi 4ème génération 2020",
+                price: 669.99,
+                "url": "hhttps://www.fnac.com/iPad-Air-10-9-64-Go-Vert-Wi-Fi-4eme-generation-2020/a14473878/w-4#omnsearchpos=6",
+                "image": "https://static.fnac-static.com/multimedia/Images/FR/MDM/3b/24/e2/14820411/1540-1/tsp20201119190837/iPad-Air-10-9-64-Go-Vert-Wi-Fi-4eme-generation-2020.jpg"
+
+
+            },
+            
+        ]
+    },
+    computed: {
+        // A computed property that holds only those products that match the searchString.
+        filteredproducts: function () {
+            var products_array = this.products,
+                searchString = this.searchString;
+
+            if(!searchString){
+                return products_array;
+            }
+
+            searchString = searchString.trim().toLowerCase();
+
+            products_array = products_array.filter(function(item){
+                if(item.title.toLowerCase().indexOf(searchString) !== -1){
+                    return item;
+                }
+            })
+
+            // Return an array with the filtered data.
+            return products_array;
+        }
+    }
+    
+});
+</script>
+
 </body>
 </html>
