@@ -123,23 +123,31 @@
     <ul>
         <!-- Render a li element for every entry in the computed filteredproducts array. -->
              
-        <li v-for="product in filteredproducts">
+        <li v-for="product in filteredproducts" v-for="product in products" >
             <a v-bind:href="product.url"><img v-bind:src="product.image" /></a>
             <p>{{product.title}}</p><p>{{product.price}}</p>
             <button>Ajouter au panier</button>
+            
         </li>
     </ul>
 
 </form>
 <br>
 <h2>Panier</h2>
+<div class="total">
 
+        <!-- permet de calculer automatiquement le prix total -->
+
+        Total: <span>{{total() | currency}}</span>
+        
+    </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
 <script>
-    // Define a custom filter called "currency". 
+
+    // filtre qui permet de calculer le prix total". 
 Vue.filter('currency', function (value) {
-    return '$' + value.toFixed(2);
+    return value.toFixed(0)+ '€';
 });
 
 var demo = new Vue({
@@ -175,7 +183,7 @@ var demo = new Vue({
         ]
     },
     computed: {
-        // A computed property that holds only those products that match the searchString.
+        // pour la barre de recherche .
         filteredproducts: function () {
             var products_array = this.products,
                 searchString = this.searchString;
@@ -194,6 +202,8 @@ var demo = new Vue({
 
             // Return an array with the filtered data.
             return products_array;
+
+            
         }
     }
     
