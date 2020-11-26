@@ -170,8 +170,8 @@ button{
 
     <h2>Ajouter un article</h2>
     <br>
-<input class="form-control" type="text" name="name" placeholder="Nom du produit" v-model="ajouter.produit">
-<input class="form-control" type="text" name="price" placeholder="Prix du produit" v-model="ajouter.produit">
+<input class="form-control" type="text" name="name" placeholder="Nom du produit" v-model="input.name">
+<input class="form-control" type="text" name="price" placeholder="Prix du produit" v-model="input.price">
 <button class="btn btn-primary btn-block" v-on:click="ajouter()">Ajouter</button>
 <br>
 
@@ -206,6 +206,9 @@ Vue.filter('currency', function (value) {
 var demo = new Vue({
     el: '#main',
     data: {
+        input :{
+
+        },
         // Define the model properties. The view will loop
         // through the products array and genreate a li
         // element for every one of its items.
