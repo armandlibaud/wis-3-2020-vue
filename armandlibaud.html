@@ -168,6 +168,13 @@ button{
         </li>
     </ul>
 
+    <h2>Ajouter un article</h2>
+    <br>
+<input class="form-control" type="text" name="name" placeholder="Nom du produit" v-model="ajouter.produit">
+<input class="form-control" type="text" name="price" placeholder="Prix du produit" v-model="ajouter.produit">
+<button class="btn btn-primary btn-block" v-on:click="ajouter()">Ajouter</button>
+<br>
+
     <div class="total">
 
         <!-- Calculate the total price of all chosen products. Format it as currency. -->
@@ -241,6 +248,11 @@ var demo = new Vue({
             });
 
            return total;
+        },
+
+        ajouter: function(){
+           return this.products.push(this.input);
+            this.input = {name: '', price: 0, active:false}
         }
 
     }
